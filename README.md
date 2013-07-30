@@ -21,7 +21,3 @@ To Run
 Enter in path/name to the original model, texture, and new model in run.py
 
 The final texture scale (compared with the original) needs to be changed in transform.py
-
-Caveats / Future To-Dos
--------------
-Incorrect textures will be produced if the vertexes and faces of the two objects are no in identical order. Reordering may occur from some OBJ exports.
