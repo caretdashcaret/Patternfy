@@ -2,10 +2,8 @@ import Image
 from rectransform import *
 import ImageDraw
 
-def transform_img(channel, original_face_to_vts, original_vts, mod_face_to_vts, mod_vts, width, height ):
+def transform_img(channel, original_face_to_vts, original_vts, mod_face_to_vts, mod_vts, width, height, factorw, factorh):
     #depending on the new uvs, might have to alter the scale factor
-    factorw = 3
-    factorh = 2
     new_image = Image.new("RGB", (int(width)*factorw,int(height)*factorh), "white")
 
     faces = len(original_face_to_vts)

@@ -18,6 +18,25 @@ Code is under MIT License 2013
 
 To Run
 -------------
-Enter in path/name to the original model, texture, and new model in run.py
+Pass the appropriate arguments into run()
 
-The final texture scale (compared with the original) needs to be changed in transform.py
+```
+texture = "babyroshtext.png"
+original = "babyrosh.obj"
+modified = "modrosh.obj"
+save_as = "output.png"
+factorw = 3
+factorh = 2
+
+run(texture, original, modified, save_as, factorw, factorh)
+```
+
+texture is a png of the original texture of the 3D model
+original is the original 3D obj model
+modified is the 3D obj model with modified UVs
+save_as is the output name of the image
+factorw and factorh are relative width and height of the new UV compared to the old UV
+
+Caveats / Future To-Dos
+-------------
+Incorrect textures will be produced if the vertexes and faces of the two objects are no in identical order. Reordering may occur from some OBJ exports.

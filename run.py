@@ -7,7 +7,7 @@ from seamequilizer import *
 def save_image(save_name, image):
     image.save(save_name)
 
-def run(texture, original, modified, save_as):
+def run(texture, original, modified, save_as, factorw, factorh):
     
     image, image_m, image_n = load_texture(texture)
 
@@ -29,7 +29,7 @@ def run(texture, original, modified, save_as):
     print "seam equilized"
 
     print "transforming"
-    transformed_image = transform_img(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n)
+    transformed_image = transform_img(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n, factorw, factorh)
     
     print "saving"
 
@@ -43,8 +43,3 @@ def run(texture, original, modified, save_as):
 
 #name of the texture, original, and modified model, and a name to save the modified texture
 #have to be in the same directory, otherwise need to specify path
-texture = "babyroshtext.png"
-original = "babyrosh1.obj"
-modified = "mayarosh.obj"
-save_as = "output8.png"
-run(texture,original,modified,save_as)
