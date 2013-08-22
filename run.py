@@ -4,14 +4,12 @@ from loadobj import *
 from loadtexture import *
 from seamequilizer import *
 
-def composite(save_name, channels):
-    img = Image.merge("RGB", channels)
-    img.save(save_name)
+def save_image(save_name, image):
+    image.save(save_name)
 
 def run(texture, original, modified, save_as):
-
-    #channel R,G,B
-    ch0, ch1, ch2, image_m, image_n = load_texture(texture)
+    
+    image, image_m, image_n = load_texture(texture)
 
     print "texture loaded"
 
@@ -30,19 +28,16 @@ def run(texture, original, modified, save_as):
 
     print "seam equilized"
 
-    #transform & composite
-    channels = [ch0, ch1, ch2]
-    transformed_image = []
-    for ch in channels:
-        print "transforming " + str(channels.index(ch))
-        transformed_image.append(transform_img(ch, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n))
-
+    print "transforming"
+    transformed_image = transform_img(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n)
     
-    print "transformed"
+    print "saving"
 
-    composite(save_as, transformed_image)
+    #composite(save_as, transformed_image)
 
-    print "composited"
+    #print "composited"
+
+    save_image(save_as, transformed_image)
                          
     return "done"
 
@@ -51,5 +46,5 @@ def run(texture, original, modified, save_as):
 texture = "babyroshtext.png"
 original = "babyrosh1.obj"
 modified = "mayarosh.obj"
-save_as = "output2.png"
+save_as = "output8.png"
 run(texture,original,modified,save_as)

@@ -6,8 +6,5 @@ def load_texture(image_name):
     
     #size
     m, n = image.size
-    
-    #color channels
-    red, green, blue = image.split()
-        
-    return [red, green, blue, m, n]
+
+    return [image, m, n]

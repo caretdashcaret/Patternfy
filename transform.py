@@ -6,7 +6,7 @@ def transform_img(channel, original_face_to_vts, original_vts, mod_face_to_vts, 
     #depending on the new uvs, might have to alter the scale factor
     factorw = 3
     factorh = 2
-    new_image = Image.new("L", (int(width)*factorw,int(height)*factorh), 255)
+    new_image = Image.new("RGB", (int(width)*factorw,int(height)*factorh), "white")
 
     faces = len(original_face_to_vts)
     face_idx = 0
