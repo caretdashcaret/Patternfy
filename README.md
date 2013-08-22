@@ -31,11 +31,15 @@ factorh = 2
 run(texture, original, modified, save_as, factorw, factorh)
 ```
 
-texture is a png of the original texture of the 3D model
-original is the original 3D obj model
-modified is the 3D obj model with modified UVs
-save_as is the output name of the image
-factorw and factorh are relative width and height of the new UV compared to the old UV
+*texture is a png of the original texture of the 3D model
+
+*original is the original 3D obj model
+
+*modified is the 3D obj model with modified UVs
+
+*save_as is the output name of the image
+
+*factorw and factorh are relative width and height of the new UV compared to the old UV
 
 Caveats / Future To-Dos
 -------------
