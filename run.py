@@ -1,7 +1,4 @@
 from PIL import Image
-from scipy import ndimage
-from scipy import misc
-from scipy import nditer
 from transform import *
 from loadobj import *
 from loadtexture import *
@@ -11,12 +8,7 @@ def composite(save_name, channels):
     img = Image.merge("RGB", channels)
     img.save(save_name)
 
-def run():
-    #name of the texture, original, and modified model
-    #have to be in the same directory, otherwise need to specify path
-    texture = "babyroshtext.png"
-    original = "babyrosh.obj"
-    modified = "modifiedbabyrosh.obj"
+def run(texture, original, modified, save_as):
 
     #channel R,G,B
     ch0, ch1, ch2, image_m, image_n = load_texture(texture)
@@ -48,12 +40,16 @@ def run():
     
     print "transformed"
 
-    save_as = "output.png"
-
     composite(save_as, transformed_image)
 
     print "composited"
                          
     return "done"
 
-run()
+#name of the texture, original, and modified model, and a name to save the modified texture
+#have to be in the same directory, otherwise need to specify path
+texture = "babyroshtext.png"
+original = "babyrosh1.obj"
+modified = "mayarosh.obj"
+save_as = "output2.png"
+run(texture,original,modified,save_as)
