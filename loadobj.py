@@ -1,7 +1,4 @@
 from PIL import Image
-from scipy import ndimage
-from scipy import misc
-from scipy import nditer
 
 ##reads an obj file
 def load_obj(filename):
