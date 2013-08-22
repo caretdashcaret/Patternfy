@@ -1,4 +1,4 @@
-from scipy import spatial
+import math
 
 #makes sure seams are of equal length for reassembly
 def seam_equilize(edges, vts):
@@ -24,10 +24,11 @@ def find_length(variant, vts):
     
     #convert to floats
             
-    pt0 = [[float(x) for x in pt0]]
-    pt1 = [[float(x) for x in pt1]]
+    pt0 = [float(x) for x in pt0]
+    pt1 = [float(x) for x in pt1]
             
-    length = spatial.distance.cdist(pt0,pt1, "euclidean")
+    #length = spatial.distance.cdist(pt0,pt1, "euclidean")
+    length = euclidean_dist(pt0,pt1)
     return length
 
 def scale(variant, factor, vts, currentlen):
@@ -42,8 +43,8 @@ def scale(variant, factor, vts, currentlen):
     
     midpt = midpoint(pt0, pt1)
 
-    newpt_x = pt0[0] + (pt1[0]-pt0[0]) / currentlen[0][0] * factor[0][0]
-    newpt_y = pt0[1] + (pt1[1]-pt0[1]) / currentlen[0][0] * factor[0][0]
+    newpt_x = pt0[0] + (pt1[0]-pt0[0]) / currentlen * factor
+    newpt_y = pt0[1] + (pt1[1]-pt0[1]) / currentlen * factor
 
     newpt1 = [newpt_x,newpt_y]
 
@@ -59,3 +60,8 @@ def scale(variant, factor, vts, currentlen):
 
 def midpoint(pt_a, pt_b):
     return [(pt_a[0]+pt_b[0])/2.0, (pt_a[1]+pt_b[1])/2.0]
+
+def euclidean_dist(pt_a,pt_b):
+    diff1 = pt_a[0] - pt_b[0]
+    diff2 = pt_a[1] - pt_b[1]
+    return math.sqrt(diff1*diff1 + diff2*diff2)
