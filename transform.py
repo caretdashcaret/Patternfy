@@ -14,7 +14,9 @@ def transform_img(channel, original_face_to_vts, original_vts, mod_face_to_vts, 
         
         pts = [original_vts[int(i)-1] for i in o_set] 
         fx = [int(float(x[0])*width) for x in pts]
-        fy = [int((-1*float(y[1]))*height) for y in pts]
+
+        fy = [map_within_range(float(y[1])) for y in pts]
+        fy = [int((1-y) * height) for y in fy]        
 
         fp = zip(fx, fy)
         m_set = mod_face_to_vts[face_idx]
@@ -31,3 +33,6 @@ def transform_img(channel, original_face_to_vts, original_vts, mod_face_to_vts, 
         face_idx += 1
 
     return new_image
+
+def map_within_range(number):
+    return number - numpy.floor(number)
