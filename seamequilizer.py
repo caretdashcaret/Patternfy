@@ -2,45 +2,54 @@ import math
 
 #makes sure seams are of equal length for reassembly
 def seam_equilize(edges, vts):
-    
-    for edge in edges.keys():
-        edge_variants = edges[edge]
-        variant_to_length = {}
-        for variant in edge_variants:
-           variant_to_length[str(variant)] = find_length(variant, vts)
+    for edge_key, edge_variants in edges.items():        
+        
+        variants_to_lengths = find_lengths_of_edge_variants(edge_variants, vts)
+        
         #find max length / scale factor
-        maxlen = max(variant_to_length.values())
+        max_edge_length = max(variants_to_lengths.values())
+        
         #scale by that length
-        for variant in edge_variants:
-            if variant_to_length[str(variant)] != maxlen:
-                newpt = scale(variant, maxlen, vts, variant_to_length[str(variant)])
-                vts[int(variant[1])-1] = newpt[1]
-                vts[int(variant[0])-1] = newpt[0]
-                
+        scale_variant_edge(edge_variants, max_edge_length, variants_to_lengths, vts)
+        
+
+def find_lengths_of_edge_variants(edge_variants, vts):    
+    variants_to_lengths = {}
+    for variant in edge_variants:
+        hashable_key = str(variant)
+        variants_to_lengths[hashable_key] = find_length(variant, vts)
+               
+    return variants_to_lengths
+
+def scale_variant_edge(edge_variants, scale_factor, variants_lengths, vts):
+    for variant in edge_variants:
+        hashable_key = str(variant)
+        if variants_lengths[hashable_key] != scale_factor:
+            newpt0, newpt1 = scale(variant, scale_factor, vts, variants_lengths[hashable_key])
+            set_new_edge_points(newpt1, newpt0, variant, vts)
+
+def set_new_edge_points(value_1, value_0, edge_variant, vts):
+    idx_1, idx_0 = vts_index_for_edge(edge_variant)
+    vts[idx_1] = value_1
+    vts[idx_0] = value_0
+
+def vts_index_for_edge(edge_variant):
+    return edge_variant[1] - 1, edge_variant[0] - 1
+
+def get_vts_values(edge_variant, vts):
+    idx_1, idx_0 = vts_index_for_edge(edge_variant)
+    return vts[idx_1], vts[idx_0]
             
-def find_length(variant, vts):
-    pt0 = vts[int(variant[0])-1]
-    pt1 = vts[int(variant[1])-1]
+def find_length(edge_variant, vts):
+    pt1, pt0 = get_vts_values(edge_variant, vts)
     
-    #convert to floats
-            
-    pt0 = [float(x) for x in pt0]
-    pt1 = [float(x) for x in pt1]
-            
-    #length = spatial.distance.cdist(pt0,pt1, "euclidean")
     length = euclidean_dist(pt0,pt1)
     return length
 
 def scale(variant, factor, vts, currentlen):
-    pt0 = vts[int(variant[0])-1]
-    pt1 = vts[int(variant[1])-1]
-            
-    #convert to floats
-            
-    pt0 = [float(x) for x in pt0]
-    pt1 = [float(x) for x in pt1]
-
     
+    pt1, pt0 = get_vts_values(variant, vts)
+
     midpt = midpoint(pt0, pt1)
 
     newpt_x = pt0[0] + (pt1[0]-pt0[0]) / currentlen * factor
@@ -56,12 +65,12 @@ def scale(variant, factor, vts, currentlen):
 
     newpt0 = [pt0[0]-diff_x, pt0[1]-diff_y]
     
-    return [[str(round(x,4)) for x in newpt0], [str(round(x,4)) for x in newpt1]]
+    return [round(x,4) for x in newpt0], [round(x,4) for x in newpt1]
 
 def midpoint(pt_a, pt_b):
     return [(pt_a[0]+pt_b[0])/2.0, (pt_a[1]+pt_b[1])/2.0]
 
-def euclidean_dist(pt_a,pt_b):
+def euclidean_dist(pt_a, pt_b):
     diff1 = pt_a[0] - pt_b[0]
     diff2 = pt_a[1] - pt_b[1]
-    return math.sqrt(diff1*diff1 + diff2*diff2)
+    return math.sqrt(diff1 * diff1 + diff2 * diff2)
