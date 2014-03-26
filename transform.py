@@ -15,19 +15,19 @@ def transform_img(channel, original_face_to_vts, original_vts, mod_face_to_vts, 
     while face_idx < faces:
         o_set = original_face_to_vts[face_idx]
         
-        pts = [original_vts[int(i)-1] for i in o_set] 
-        fx = [int(float(x[0])*width) for x in pts]
+        pts = [original_vts[i-1] for i in o_set] 
+        fx = [int(x[0]*width) for x in pts]
 
-        fy = [map_within_range(float(y[1])) for y in pts]
+        fy = [map_within_range(y[1]) for y in pts]
         fy = [int((1-y) * height) for y in fy]        
 
         fp = zip(fx, fy)
         m_set = mod_face_to_vts[face_idx]
 
-        mpts = [mod_vts[int(i)-1] for i in m_set] 
+        mpts = [mod_vts[i-1] for i in m_set] 
         
-        tx = [int(float(x[0])*width) for x in mpts]
-        ty = [int((1-float(y[1]))*height) for y in mpts]
+        tx = [int(x[0]*width) for x in mpts]
+        ty = [int((1-y[1])*height) for y in mpts]
 
         tp = zip(tx,ty)
 
