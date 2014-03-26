@@ -29,13 +29,9 @@ def run(texture, original, modified, save_as, factorw, factorh):
     print "seam equilized"
 
     print "transforming"
-    transformed_image = transform_img(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n, factorw, factorh)
+    transformed_image = transform_img(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n)
     
     print "saving"
-
-    #composite(save_as, transformed_image)
-
-    #print "composited"
 
     save_image(save_as, transformed_image)
                          

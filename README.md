@@ -18,6 +18,8 @@ A copy of the license can be found at [http://opensource.org/licenses/mit-licens
 To Run
 -------------
 
+Requires Python 2.7, [PIL](http://www.pythonware.com/products/pil/), and [numpy](http://www.numpy.org/)
+
 Pass the appropriate arguments into `run()`
 
 ```python
@@ -25,17 +27,14 @@ texture = "babyroshtext.png"
 original = "babyrosh.obj"
 modified = "modrosh.obj"
 save_as = "output.png"
-factorw = 3
-factorh = 2
 
-run(texture, original, modified, save_as, factorw, factorh)
+run(texture, original, modified, save_as)
 ```
 
 * `texture` is a png of the original texture of the 3D model
 * `original` is the original 3D obj model
 * `modified` is the 3D obj model with modified UVs
 * `save_as` is the output name of the image
-* `factorw` and factorh are relative width and height of the new UV compared to the old UV
 
 Caveats / Future To-Dos
 -------------
