@@ -25,31 +25,30 @@ def scale_variant_edge(edge_variants, scale_factor, variants_lengths, vts):
     for variant in edge_variants:
         hashable_key = str(variant)
         if variants_lengths[hashable_key] != scale_factor:
-            newpt0, newpt1 = scale(variant, scale_factor, vts, variants_lengths[hashable_key])
-            set_new_edge_points(newpt1, newpt0, variant, vts)
+            pt0, pt1 = get_vts_values(variant, vts)
+            newpt0, newpt1 = scale(pt0, pt1, scale_factor, variants_lengths[hashable_key])
+            set_new_vts_values(newpt0, newpt1, variant, vts)
 
-def set_new_edge_points(value_1, value_0, edge_variant, vts):
-    idx_1, idx_0 = vts_index_for_edge(edge_variant)
-    vts[idx_1] = value_1
+def set_new_vts_values(value_0, value_1, edge_variant, vts):
+    idx_0, idx_1 = get_vts_index_for_edge(edge_variant)
     vts[idx_0] = value_0
+    vts[idx_1] = value_1
 
-def vts_index_for_edge(edge_variant):
-    return edge_variant[1] - 1, edge_variant[0] - 1
+def get_vts_index_for_edge(edge_variant):
+    return edge_variant[0] - 1, edge_variant[1] - 1
 
 def get_vts_values(edge_variant, vts):
-    idx_1, idx_0 = vts_index_for_edge(edge_variant)
-    return vts[idx_1], vts[idx_0]
+    idx_0, idx_1 = get_vts_index_for_edge(edge_variant)
+    return vts[idx_0], vts[idx_1]
             
 def find_length(edge_variant, vts):
-    pt1, pt0 = get_vts_values(edge_variant, vts)
+    pt0, pt1 = get_vts_values(edge_variant, vts)
     
     length = euclidean_dist(pt0,pt1)
     return length
 
-def scale(variant, factor, vts, currentlen):
+def scale(pt0, pt1, factor, currentlen):
     
-    pt1, pt0 = get_vts_values(variant, vts)
-
     midpt = midpoint(pt0, pt1)
 
     newpt_x = pt0[0] + (pt1[0]-pt0[0]) / currentlen * factor
@@ -61,9 +60,8 @@ def scale(variant, factor, vts, currentlen):
     diff_x = new_midpt[0] - midpt[0]
     diff_y = new_midpt[1] - midpt[1]
     
-    newpt1 = [newpt1[0]-diff_x, newpt1[1]-diff_y]
-
     newpt0 = [pt0[0]-diff_x, pt0[1]-diff_y]
+    newpt1 = [newpt1[0]-diff_x, newpt1[1]-diff_y]
     
     return [round(x,4) for x in newpt0], [round(x,4) for x in newpt1]
 
