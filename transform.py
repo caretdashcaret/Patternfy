@@ -9,6 +9,8 @@ def transform_img(channel, original_face_to_vts, original_vts, mod_face_to_vts, 
     new_width, new_height = find_new_image_size(width, height, factor_w, factor_h)    
     new_image = Image.new("RGB", (new_width, new_height), "white")
 
+    transform_faces(original_face_to_vts, mod_face_to_vts, channel, new_image, original_vts, mod_vts, width, height)
+
     return new_image
 
 def map_within_range(number):
@@ -34,24 +36,24 @@ def find_new_image_size(original_width, original_height, factor_w, factor_h):
     new_height = int(original_height * factor_h)
     return new_width, new_height
 
-def transform_faces(original_face_to_vts, mod_face_to_vts, channel, new_image):
+def transform_faces(original_face_to_vts, mod_face_to_vts, channel, new_image, original_vts, mod_vts, width, height):
     faces = len(original_face_to_vts)
     face_idx = 0
 
     while face_idx < faces:
         o_set = original_face_to_vts[face_idx]
-        
-        pts = [original_vts[i-1] for i in o_set] 
+
+        pts = [original_vts[i-1] for i in o_set]
         fx = [int(x[0]*width) for x in pts]
 
         fy = [map_within_range(y[1]) for y in pts]
-        fy = [int((1-y) * height) for y in fy]        
+        fy = [int((1-y) * height) for y in fy]
 
         fp = zip(fx, fy)
         m_set = mod_face_to_vts[face_idx]
 
-        mpts = [mod_vts[i-1] for i in m_set] 
-        
+        mpts = [mod_vts[i-1] for i in m_set]
+
         tx = [int(x[0]*width) for x in mpts]
         ty = [int((1-y[1])*height) for y in mpts]
 
