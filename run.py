@@ -7,7 +7,7 @@ from seamequilizer import *
 def save_image(save_name, image):
     image.save(save_name)
 
-def run(texture, original, modified, save_as, factorw, factorh):
+def run(texture, original, modified, save_as):
     
     image, image_m, image_n = load_texture(texture)
 
