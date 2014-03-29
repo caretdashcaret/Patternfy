@@ -1,7 +1,7 @@
-from src.transform import *
 from src import ObjectLoader
 from src import TextureLoader
 from src import SeamEquilizer
+from src import ImageTransformer
 
 def save_image(save_name, image):
     image.save(save_name)
@@ -28,7 +28,8 @@ def run(texture, original, modified, save_as):
     print "seam equilized"
 
     print "transforming"
-    transformed_image = transform_img(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n)
+    image_transformer = ImageTransformer(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n)
+    transformed_image = image_transformer.transform()
     
     print "saving"
 
