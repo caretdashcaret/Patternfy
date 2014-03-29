@@ -1,6 +1,5 @@
-import Image
-from rectransform import *
-import ImageDraw
+from src.rectransform import *
+
 
 def transform_img(original_image, original_face_to_vts, original_vts, mod_face_to_vts, mod_vts, width, height):
     #depending on the new uvs, might have to alter the scale factor

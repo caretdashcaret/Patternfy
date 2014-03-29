@@ -1,30 +1,29 @@
-from PIL import Image
-from transform import *
-from loadobj import *
-from loadtexture import *
-from seamequilizer import *
+from src.transform import *
+from src import ObjectLoader
+from src import TextureLoader
+from src import SeamEquilizer
 
 def save_image(save_name, image):
     image.save(save_name)
 
 def run(texture, original, modified, save_as):
     
-    image, image_m, image_n = load_texture(texture)
+    image, image_m, image_n = TextureLoader(texture).load_texture()
 
     print "texture loaded"
 
     #load obj with original uvs
-    original_face_to_vt, e1, original_vt = load_obj(original)
+    original_face_to_vt, original_edges, original_vt = ObjectLoader(original).load_obj()
 
     print "original uvs"
 
     #load obj with modified uvs
-    modified_face_to_vt, e2, modified_vt = load_obj(modified)
+    modified_face_to_vt, modified_edges, modified_vt = ObjectLoader(modified).load_obj()
 
     print "mod uvs"
     
     #equilize seams
-    seam_equilize(e2, modified_vt)
+    SeamEquilizer(modified_edges, modified_vt).equilize()
 
     print "seam equilized"
 
@@ -39,3 +38,4 @@ def run(texture, original, modified, save_as):
 
 #name of the texture, original, and modified model, and a name to save the modified texture
 #have to be in the same directory, otherwise need to specify path
+
