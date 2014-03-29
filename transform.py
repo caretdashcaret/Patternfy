@@ -2,14 +2,14 @@ import Image
 from rectransform import *
 import ImageDraw
 
-def transform_img(channel, original_face_to_vts, original_vts, mod_face_to_vts, mod_vts, width, height):
+def transform_img(original_image, original_face_to_vts, original_vts, mod_face_to_vts, mod_vts, width, height):
     #depending on the new uvs, might have to alter the scale factor
 
     factor_w, factor_h = find_scaling_factors(original_vts, mod_vts)
     new_width, new_height = find_new_image_size(width, height, factor_w, factor_h)    
     new_image = Image.new("RGB", (new_width, new_height), "white")
 
-    transform_faces(original_face_to_vts, mod_face_to_vts, channel, new_image, original_vts, mod_vts, width, height)
+    transform_faces(original_face_to_vts, mod_face_to_vts, original_image, new_image, original_vts, mod_vts, width, height)
 
     return new_image
 
@@ -36,29 +36,30 @@ def find_new_image_size(original_width, original_height, factor_w, factor_h):
     new_height = int(original_height * factor_h)
     return new_width, new_height
 
-def transform_faces(original_face_to_vts, mod_face_to_vts, channel, new_image, original_vts, mod_vts, width, height):
-    faces = len(original_face_to_vts)
-    face_idx = 0
+def transform_faces(original_face_to_vts, mod_face_to_vts, original_img, new_img, original_vts, mod_vts, width, height):
 
-    while face_idx < faces:
-        o_set = original_face_to_vts[face_idx]
+    for original_face_idx, original_face in original_face_to_vts.items():
+        pts = [original_vts[i-1] for i in original_face]
+        fp = get_original_img_pts(pts, width, height)
 
-        pts = [original_vts[i-1] for i in o_set]
-        fx = [int(x[0]*width) for x in pts]
+        corresponding_modified_face = mod_face_to_vts[original_face_idx]
+        modified_pts = [mod_vts[i-1] for i in corresponding_modified_face]
+        tp = get_modified_img_pts(modified_pts, width, height)
 
-        fy = [map_within_range(y[1]) for y in pts]
-        fy = [int((1-y) * height) for y in fy]
+        rec_transform(fp, tp, original_img, new_img)
 
-        fp = zip(fx, fy)
-        m_set = mod_face_to_vts[face_idx]
+def get_img_pt_x(point, width):
+    return int(point*width)
 
-        mpts = [mod_vts[i-1] for i in m_set]
+def get_img_pt_y(point, height):
+    return int((1-point)*height)
 
-        tx = [int(x[0]*width) for x in mpts]
-        ty = [int((1-y[1])*height) for y in mpts]
+def get_img_pts(pts, width, height):
+    return [(get_img_pt_x(x, width), get_img_pt_y(y, height)) for x, y in pts]
 
-        tp = zip(tx,ty)
+def get_original_img_pts(pts, width, height):
+    fx = [(map_within_range(x), map_within_range(y)) for x, y in pts]
+    return get_img_pts(fx, width, height)
 
-        rec_transform(fp, tp, channel, new_image)
-                
-        face_idx += 1
+def get_modified_img_pts(pts, width, height):
+    return get_img_pts(pts, width, height)
