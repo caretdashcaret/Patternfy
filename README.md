@@ -10,7 +10,7 @@ UVs represent the sewing pattern, and the textures represent the fabric print.
 I created this script to turn 3D models (extracted from video games) into stuffed animals,
 with a procedurally generated sewing pattern that preserves the model's original shape and coloration.
 
-For examples/tutorials see (MAKE magazine Vol 38 - DIY Video Game Plushies from 3D Models)[http://makezine.com/projects/make-38-cameras-and-av/video-game-plushies/].
+For examples/tutorials see [MAKE magazine Vol 38 - DIY Video Game Plushies from 3D Models](http://makezine.com/projects/make-38-cameras-and-av/video-game-plushies/).
 
 Credits
 -------------
