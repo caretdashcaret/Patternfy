@@ -10,12 +10,12 @@ UVs represent the sewing pattern, and the textures represent the fabric print.
 I created this script to turn 3D models (extracted from video games) into stuffed animals,
 with a procedurally generated sewing pattern that preserves the model's original shape and coloration.
 
-For examples/tutorials see MAKE magazine Vol 38 - DIY Video Game Plushies from 3D Models.
+For examples/tutorials see (MAKE magazine Vol 38 - DIY Video Game Plushies from 3D Models)[http://makezine.com/projects/make-38-cameras-and-av/video-game-plushies/].
 
 Credits
 -------------
 
-Created by Jenny [CaretDashCaret](http://caretdashcaret.wordpress.com/),
+Created by Jenny - [CaretDashCaret](http://caretdashcaret.wordpress.com/)
 
 License
 -------------
@@ -23,7 +23,7 @@ License
 Patternfy's code is under [GPLv3](http://opensource.org/licenses/gpl-3.0.html).
 A copy of GPLv3 can be found at [http://opensource.org/licenses/gpl-3.0.html](http://opensource.org/licenses/gpl-3.0.html).
 
-Patternfy's art assets are under Creative Commons Attribution-ShareAlike 3.0.
+Patternfy's art assets are under [Creative Commons Attribution-ShareAlike 3.0](http://creativecommons.org/licenses/by-sa/3.0/).
 A copy of Creative Commons Attribution-ShareAlike 3.0 can be found at [http://creativecommons.org/licenses/by-sa/3.0/](http://creativecommons.org/licenses/by-sa/3.0/).
 
 
@@ -35,9 +35,9 @@ Requires Python 2.7, [PIL](http://www.pythonware.com/products/pil/), and [numpy]
 Pass the appropriate arguments into `run()`
 
 ```python
-texture = "babyroshtext.png"
-original = "babyrosh.obj"
-modified = "modrosh.obj"
+texture = "original_texture.png"
+original = "original.obj"
+modified = "modified.obj"
 save_as = "output.png"
 
 run(texture, original, modified, save_as)
