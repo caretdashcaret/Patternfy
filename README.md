@@ -1,7 +1,7 @@
 Patternfy
 ============
 
-![Video Game Plushie](http://i1115.photobucket.com/albums/k552/caretdashcaret/2014-03/0_zpsd_zps60b0f522.jpg)
+[![Video Game Plushie](http://i1115.photobucket.com/albums/k552/caretdashcaret/2014-03/0_zpsd_zps60b0f522.jpg)](http://makezine.com/projects/make-38-cameras-and-av/video-game-plushies/)
 
 Patternfy is a script that transforms the textures from one OBJ to another,
 given two OBJs with the same vertexes and faces, but different UVs.
@@ -19,7 +19,7 @@ Credits
 
 Created by Jenny - [CaretDashCaret](http://caretdashcaret.wordpress.com/)
 
-![Jenny](http://i1115.photobucket.com/albums/k552/caretdashcaret/2014-03/About5_zps7f79c497.jpg)
+[![Jenny](http://i1115.photobucket.com/albums/k552/caretdashcaret/2014-03/About5_zps7f79c497.jpg)](http://caretdashcaret.wordpress.com/)
 
 License
 -------------
