@@ -2,41 +2,50 @@ from src import ObjectLoader
 from src import TextureLoader
 from src import SeamEquilizer
 from src import ImageTransformer
+import argparse
+import logging
 
-def save_image(save_name, image):
-    image.save(save_name)
+def get_args():
+    parser = argparse.ArgumentParser()
 
-def run(texture, original, modified, save_as):
-    
-    image, image_m, image_n = TextureLoader(texture).load_texture()
+    parser.add_argument('-g', '--original', help="Original OBJ file")
+    parser.add_argument('-m', '--modified', help="Modified OBJ file")
+    parser.add_argument('-t', '--texture', help="PNG texture of the original OBJ file")
+    parser.add_argument('-s', '--save', help="Filename to save the output as")
 
-    print "texture loaded"
+    return parser.parse_args()
 
-    #load obj with original uvs
-    original_face_to_vt, original_edges, original_vt = ObjectLoader(original).load_obj()
+def setup_logger():
+    LOG_FORMAT = "Patternfy - %(asctime)s - %(message)s"
+    logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
+    return logging.getLogger(__name__)
 
-    print "original uvs"
+def main(args):
 
-    #load obj with modified uvs
-    modified_face_to_vt, modified_edges, modified_vt = ObjectLoader(modified).load_obj()
+    LOGGER.info("loading texture")
+    image, image_m, image_n = TextureLoader(args.texture).load_texture()
 
-    print "mod uvs"
-    
-    #equilize seams
+    LOGGER.info("loading original OBJ")
+    original_face_to_vt, original_edges, original_vt = ObjectLoader(args.original).load_obj()
+
+    LOGGER.info("loading modified OBJ")
+    modified_face_to_vt, modified_edges, modified_vt = ObjectLoader(args.modified).load_obj()
+
+    LOGGER.info("seam equilizing")
     SeamEquilizer(modified_edges, modified_vt).equilize()
 
-    print "seam equilized"
-
-    print "transforming"
+    LOGGER.info("transforming image")
     image_transformer = ImageTransformer(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n)
     transformed_image = image_transformer.transform()
     
-    print "saving"
-
-    save_image(save_as, transformed_image)
+    LOGGER.info("saving")
+    transformed_image.save(args.save)
                          
-    return "done"
+    LOGGER.info("success")
 
-#name of the texture, original, and modified model, and a name to save the modified texture
-#have to be in the same directory, otherwise need to specify path
+args = get_args()
+LOGGER = setup_logger()
+
+if __name__ == '__main__':
+    main(args)
 

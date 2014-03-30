@@ -13,4 +13,4 @@ class TextureLoader():
         #image size
         m, n = image.size
 
-        return [image, m, n]
+        return image, m, n

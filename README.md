@@ -32,21 +32,26 @@ To Run
 
 Requires Python 2.7, [PIL](http://www.pythonware.com/products/pil/), and [numpy](http://www.numpy.org/)
 
-Pass the appropriate arguments into `run()`
+Pass the appropriate arguments into run.py from the command line.
 
 ```python
-texture = "original_texture.png"
-original = "original.obj"
-modified = "modified.obj"
-save_as = "output.png"
+$ python run.py -g "objects/original.obj" -m "objects/modified.obj" -t "objects/original_texture.png" -s "objects/output.png"
 
-run(texture, original, modified, save_as)
+$ Patternfy - 2014-03-30 17:13:40,715 - loading texture
+$ Patternfy - 2014-03-30 17:13:40,741 - loading original OBJ
+$ Patternfy - 2014-03-30 17:13:40,742 - loading modified OBJ
+$ Patternfy - 2014-03-30 17:13:40,742 - seam equilizing
+$ Patternfy - 2014-03-30 17:13:40,743 - transforming image
+$ Patternfy - 2014-03-30 17:13:41,106 - saving
+$ Patternfy - 2014-03-30 17:13:41,408 - success
 ```
 
-* `texture` is a png of the original texture of the 3D model
-* `original` is the original 3D obj model
-* `modified` is the 3D obj model with modified UVs
-* `save_as` is the output name of the image
+* `-g` or `--original` is the original 3D obj model
+* `-m` or `--modified` is the 3D obj model with modified UVs
+* `-t` or `--texture` is a png of the original texture of the 3D model
+* `-s` or `--save` is the name to save the output image as
+
+The `objects/output.png` should be the same as the `objects/expected_output.png`.
 
 Caveats / Future To-Dos
 -------------
