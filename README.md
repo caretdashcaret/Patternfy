@@ -28,17 +28,55 @@ Patternfy's code is under [GPLv3](http://opensource.org/licenses/gpl-3.0.html).
 A copy of GPLv3 can be found at [http://opensource.org/licenses/gpl-3.0.html](http://opensource.org/licenses/gpl-3.0.html).
 
 Patternfy's art assets are under [Creative Commons Attribution-ShareAlike 3.0](http://creativecommons.org/licenses/by-sa/3.0/).
-A copy of Creative Commons Attribution-ShareAlike 3.0 can be found at [http://creativecommons.org/licenses/by-sa/3.0/](http://creativecommons.org/licenses/by-sa/3.0/).
+A copy of the license can be found at [http://creativecommons.org/licenses/by-sa/3.0/](http://creativecommons.org/licenses/by-sa/3.0/).
 
+Development Environment
+-------------
+
+It's generally cleaner to set up a development environment. However, you can skip straight to the Run section.
+Setting up an environment requires [virtualenv](https://pypi.python.org/pypi/virtualenv). Directories may vary depending on operating system.
+
+```sh
+$ virtualenv ~/.virtualenvs/patternfy
+$ . ~/.virtualenvs/patternfy/bin/activate
+$ pip install -r requirements.txt
+```
+
+The requirements.txt contains `numpy` for solving matrices and `nose` for testing.
+PIL also needs to be installed, but [`pip install PIL` won't provide support for png](http://jamie.curle.io/blog/webfaction-installing-pil/).
+To install PIL with png support, [setup.py needs to be edited](http://stackoverflow.com/questions/4435016/install-pil-on-virtualenv-with-libjpeg).
+
+```sh
+$ pip install --no-install PIL
+$ cd ~/.virtualenvs/patternfy/build/PIL
+```
+
+In `setup.py`, around line 38, change
+```sh
+JPEG_ROOT = None
+ZLIB_ROOT = None
+```
+to
+```sh
+JPEG_ROOT = libinclude("/usr/lib")
+ZLIB_ROOT = libinclude("/usr/lib")
+```
+
+```sh
+$ pip install PIL
+```
+
+If you get a ```Cannot fetch index base URL http://pypi.python.org/simple/```,
+[try using pip version 1.2.1](http://stackoverflow.com/questions/21294997/pip-connection-failure-cannot-fetch-index-base-url-http-pypi-python-org-simpl)
 
 To Run
 -------------
 
-Requires Python 2.7, [PIL](http://www.pythonware.com/products/pil/), and [numpy](http://www.numpy.org/)
+Running requires Python 2.7, [PIL](http://www.pythonware.com/products/pil/), and [numpy](http://www.numpy.org/).
 
 Pass the appropriate arguments into run.py from the command line.
 
-```python
+```sh
 $ python run.py -g "objects/original.obj" -m "objects/modified.obj" -t "objects/original_texture.png" -s "objects/output.png"
 
 $ Patternfy - 2014-03-30 17:13:40,715 - loading texture
@@ -56,6 +94,15 @@ $ Patternfy - 2014-03-30 17:13:41,408 - success
 * `-s` or `--save` is the name to save the output image as
 
 The `objects/output.png` should be the same as the `objects/expected_output.png`.
+
+Testing
+-------------
+
+Running the tests requires [nose](https://nose.readthedocs.org/en/latest/).
+
+```sh
+$ nosetests
+```
 
 Caveats / Future To-Dos
 -------------

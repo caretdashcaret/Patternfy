@@ -7,7 +7,7 @@ class ObjectLoader():
     def load_obj(self):
         """vts are the texture coordinates (x,y)
         faces are an array of points, indexing into the vts"""
-        vts, faces = self.read_obj_file(self.filename)
+        vts, faces = self.read_obj_file()
 
         f_to_vts = self.map_faces_to_vts(faces)
 
@@ -15,11 +15,11 @@ class ObjectLoader():
 
         return f_to_vts, edges_to_vts, vts
 
-    def read_obj_file(self, filename):
+    def read_obj_file(self):
         """extracts the texture coordinates, vts, an array of coordinates
         and faces, a array of points that index into the vts array, as well as other arrays"""
 
-        obj_file = open(filename)
+        obj_file = open(self.filename)
         #texture coords
         vts = []
 
