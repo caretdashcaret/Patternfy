@@ -33,7 +33,7 @@ A copy of the license can be found at [http://creativecommons.org/licenses/by-sa
 Development Environment
 -------------
 
-It's generally cleaner to set up a development environment. However, you can skip straight to the [Run](https://github.com/caretdashcaret/Patternfy#testing) section.
+It's generally cleaner to set up a development environment. However, you can skip straight to the [Run](https://github.com/caretdashcaret/Patternfy#to-run) section.
 Setting up an environment requires [virtualenv](https://pypi.python.org/pypi/virtualenv). Directories may vary depending on operating system.
 
 ```sh
