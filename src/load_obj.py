@@ -45,6 +45,12 @@ class ObjectLoader():
         this_edge = 0
         next_edge = 1
         while this_edge < max_edges:
+
+            #handles special case when there's only 2 points to a face
+            #in reality, can't form a face with only two points, so this shouldn't happen
+            if (this_edge == 1) and (max_edges == 2):
+                break
+
             start = points_array[this_edge]
             end = points_array[next_edge]
             edge = (start[0], end[0])

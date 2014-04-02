@@ -43,6 +43,13 @@ class PatternfyTest(unittest.TestCase):
     def image_equal(self, im1, im2):
         return ImageChops.difference(im1, im2).getbbox() is None
 
+    def tearDown(self):
+        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        save_filename = "test/output.png"
+        save = os.path.join(path, save_filename)
+
+        os.remove(save)
+
 
 
 
