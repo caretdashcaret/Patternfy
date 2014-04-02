@@ -8,8 +8,4 @@ class TextureLoader():
 
     def load_texture(self):
         image = Image.open(self.image_name)
-
-        #image size
-        m, n = image.size
-
-        return image, m, n
+        return image

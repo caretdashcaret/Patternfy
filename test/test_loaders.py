@@ -13,10 +13,8 @@ class TextureLoaderTest(unittest.TestCase):
         file_location = os.path.join(path, filename)
 
         new_texture = TextureLoader(file_location)
-        image, m, n = new_texture.load_texture()
+        image = new_texture.load_texture()
 
-        assert m == 1024
-        assert n == 1024
         assert isinstance(image, PIL.PngImagePlugin.PngImageFile)
 
 class ObjectLoaderTest(unittest.TestCase):

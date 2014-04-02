@@ -22,11 +22,11 @@ class PatternfyTest(unittest.TestCase):
         save_filename = "test/output.png"
         save = os.path.join(path, save_filename)
 
-        image, image_m, image_n = TextureLoader(texture).load_texture()
+        image = TextureLoader(texture).load_texture()
         original_face_to_vt, original_edges, original_vt = ObjectLoader(original).load_obj()
         modified_face_to_vt, modified_edges, modified_vt = ObjectLoader(modified).load_obj()
         SeamEquilizer(modified_edges, modified_vt).equilize()
-        image_transformer = ImageTransformer(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n)
+        image_transformer = ImageTransformer(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt)
         transformed_image = image_transformer.transform()
         transformed_image.save(save)
 

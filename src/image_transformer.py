@@ -5,14 +5,13 @@ from matrix_computer import MatrixComputer
 
 class ImageTransformer():
 
-    def __init__(self, original_image, original_face_to_vts, original_vts, mod_face_to_vts, mod_vts, width, height):
+    def __init__(self, original_image, original_face_to_vts, original_vts, mod_face_to_vts, mod_vts):
         self.original_image = original_image
         self.original_face_to_vts = original_face_to_vts
         self.original_vts = original_vts
         self.mod_face_to_vts = mod_face_to_vts
         self.modified_vts = mod_vts
-        self.width = width
-        self.height = height
+        self.width, self.height = original_image.size
         self.modified_image = None
 
     def transform(self):
@@ -56,9 +55,15 @@ class ImageTransformer():
     def transform_faces(self):
 
         for original_face_idx, original_face in self.original_face_to_vts.items():
-            original_image_points, modified_image_points = self.get_image_points(original_face_idx)
+            original_image_points, modified_image_points = self.get_all_image_points(original_face_idx)
             self.transform_image_points(original_image_points, modified_image_points)
 
+    #the getting image points from coords is a little tricky because UVs (vts) have 0,0 as lower left corner
+    #and PIL Image has 0,0 as the upper left corner
+    #vts on the orignal model obey the UV definition and are mapped back between 0 and 1 to get the proper coordinate on
+    #the original texture
+    #that rule is disobeyed in the modified model, and can result in larger, non-square textures, which is good for
+    #pattern drafting but bad for reconstructing the original UV mapping
     def get_img_pt_x(self, point):
         return int(point*self.width)
 
@@ -75,7 +80,7 @@ class ImageTransformer():
     def get_modified_img_pts(self, pts):
         return self.get_img_pts(pts)
 
-    def get_image_points(self, index):
+    def get_all_image_points(self, index):
         original_face = self.original_face_to_vts[index]
         pts = [self.original_vts[i-1] for i in original_face]
         orignal_image_points = self.get_original_img_pts(pts)
