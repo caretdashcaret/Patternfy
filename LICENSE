@@ -1,7 +1,14 @@
 Patternfy Copyright (C) 2013 Jenny Cheng, Harry Schwartz, Alberty Wang
 
-All code is under GPLv3
-See http://opensource.org/licenses/gpl-3.0.html](http://opensource.org/licenses/gpl-3.0.html
+Patternfy is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-All art assets (OBJ files, PNGs, etc.) are under CC-BY-SA-3.0
-See http://creativecommons.org/licenses/by-sa-/3.0/
+Patternfy is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details <http://www.gnu.org/licenses/>.
+
+The art assets provided for testing (OBJ files and PNGs) are under CC-BY-SA-3.0
+See http://creativecommons.org/licenses/by-sa-/3.0/.

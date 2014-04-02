@@ -42,32 +42,8 @@ $ . ~/.virtualenvs/patternfy/bin/activate
 $ pip install -r requirements.txt
 ```
 
-The requirements.txt contains `numpy` for solving matrices and `nose` for testing.
-PIL also needs to be installed, but [`pip install PIL` won't provide support for png](http://jamie.curle.io/blog/webfaction-installing-pil/).
-To install PIL with png support, [setup.py needs to be edited](http://stackoverflow.com/questions/4435016/install-pil-on-virtualenv-with-libjpeg).
+The requirements.txt contains `numpy` for solving matrices, `Pillow` for PIL, and `nose` for testing.
 
-```sh
-$ pip install --no-install PIL
-$ cd ~/.virtualenvs/patternfy/build/PIL
-```
-
-In `setup.py`, around line 38, change
-```sh
-JPEG_ROOT = None
-ZLIB_ROOT = None
-```
-to
-```sh
-JPEG_ROOT = libinclude("/usr/lib")
-ZLIB_ROOT = libinclude("/usr/lib")
-```
-
-```sh
-$ pip install PIL
-```
-
-If you get a ```Cannot fetch index base URL http://pypi.python.org/simple/```,
-[try using pip version 1.2.1](http://stackoverflow.com/questions/21294997/pip-connection-failure-cannot-fetch-index-base-url-http-pypi-python-org-simpl)
 
 To Run
 -------------
