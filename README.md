@@ -80,8 +80,3 @@ Running the tests requires [nose](https://nose.readthedocs.org/en/latest/).
 $ nosetests
 ```
 
-Caveats / Future To-Dos
--------------
-
-* Incorrect textures will be produced if the vertexes and faces of the two objects are not in identical order. Reordering may occur from some OBJ exports.
-* Maximum number of points per face need to be 4 to correctly generate the texture
