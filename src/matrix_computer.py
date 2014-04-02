@@ -11,7 +11,7 @@ class MatrixComputer():
 
         for source, destination in transforming_triangles:
             transformation_matrices.append(self.compute_transformation_matrix(source, destination))
-        return  transformation_matrices
+        return transformation_matrices
 
     def get_transforming_triangles(self):
         """only handles faces with 3 or 4 points"""
