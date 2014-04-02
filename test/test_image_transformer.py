@@ -28,6 +28,10 @@ class ImageTransformerTest(unittest.TestCase):
         SeamEquilizer(modified_edges, modified_vt).equilize()
         self.image_transformer = ImageTransformer(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt)
 
+        self.path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.transformations = range(0, 12)
+        self.face_transformations = range(0, 6)
+
     def test_map_within_range(self):
         mapped = self.image_transformer.map_within_range(250.5)
         assert mapped == 0.5
@@ -114,29 +118,26 @@ class ImageTransformerTest(unittest.TestCase):
             for triangles, matrix in zip(sections, matrices):
                 source_triangle, destination_triangle = triangles
                 self.image_transformer.apply_transformation_to_image(source_triangle, destination_triangle, matrix)
-                filename = self.get_image_transformation_filename(counter)
+                filename = self.get_apply_transformation_filename(counter)
                 self.image_transformer.modified_image.save(filename)
                 counter += 1
 
-        transformations = range(0, 12)
-
-        for step_number in transformations:
-            expected = self.get_expected_transformation_filename(step_number)
-            actual = self.get_image_transformation_filename(step_number)
+        for step_number in self.transformations:
+            expected = self.get_expected_applied_filename(step_number)
+            actual = self.get_apply_transformation_filename(step_number)
             self.assertTrue(self.image_equal(expected, actual), "transformation_" + str(step_number) + ".pngs are not equal ")
 
         self.teardown_apply_transformation_to_image()
 
-    def get_image_transformation_filename(self, step_num):
-        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def get_apply_transformation_filename(self, step_num):
         transf_filename = "test/temp/transformation_" + str(step_num) + ".png"
-        transf_file = os.path.join(path, transf_filename)
+        transf_file = os.path.join(self.path, transf_filename)
         return transf_file
 
-    def get_expected_transformation_filename(self, step_num):
-        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    def get_expected_applied_filename(self, step_num):
         transf_filename = "objects/transformations/transformation_" + str(step_num) + ".png"
-        transf_file = os.path.join(path, transf_filename)
+        transf_file = os.path.join(self.path, transf_filename)
         return transf_file
 
     def image_equal(self, im1_name, im2_name):
@@ -145,10 +146,44 @@ class ImageTransformerTest(unittest.TestCase):
         return ImageChops.difference(im1, im2).getbbox() is None
 
     def teardown_apply_transformation_to_image(self):
-        transformations = range(0, 12)
+        for transf in self.transformations:
+            filename = self.get_apply_transformation_filename(transf)
+            try: #need a better way to check for if file exists
+                os.remove(filename)
+            except:
+                pass
 
-        for transf in transformations:
-            filename = self.get_image_transformation_filename(transf)
+    def test_transform_image_points(self):
+        counter = 0
+        self.image_transformer.modified_image = self.image_transformer.create_new_image()
+
+        for original_face_idx, original_face in self.image_transformer.original_face_to_vts.items():
+            original_image_points, modified_image_points = self.image_transformer.get_all_image_points(original_face_idx)
+            self.image_transformer.transform_image_points(original_image_points, modified_image_points)
+            filename = self.get_transform_imgpts_filename(counter)
+            self.image_transformer.modified_image.save(filename)
+            counter += 1
+
+        for transformation in self.face_transformations:
+            expected = self.get_expected_imgpts_filename(transformation)
+            actual = self.get_transform_imgpts_filename(transformation)
+            self.assertTrue(self.image_equal(expected, actual), "face_transformation_" + str(transformation) + ".pngs are not equal")
+
+        self.teardown_transform_imgpts()
+
+    def get_transform_imgpts_filename(self, step_num):
+        transf_filename = "test/temp/face_transformation_" + str(step_num) + ".png"
+        transf_file = os.path.join(self.path, transf_filename)
+        return transf_file
+
+    def get_expected_imgpts_filename(self, step_num):
+        transf_filename = "objects/face_transformations/face_transformation_" + str(step_num) + ".png"
+        transf_file = os.path.join(self.path, transf_filename)
+        return transf_file
+
+    def teardown_transform_imgpts(self):
+        for transf in self.face_transformations:
+            filename = self.get_transform_imgpts_filename(transf)
             try: #need a better way to check for if file exists
                 os.remove(filename)
             except:
