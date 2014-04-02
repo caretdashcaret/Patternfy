@@ -19,7 +19,7 @@ class PatternfyTest(unittest.TestCase):
         modified_filename = "objects/modified.obj"
         modified = os.path.join(path, modified_filename)
 
-        save_filename = "test/output.png"
+        save_filename = "test/temp/output.png"
         save = os.path.join(path, save_filename)
 
         image = TextureLoader(texture).load_texture()
@@ -33,19 +33,16 @@ class PatternfyTest(unittest.TestCase):
         expected_filename = "objects/expected_output.png"
         expected = os.path.join(path, expected_filename)
 
-        output_image = Image.open(save)
-        output_image.load()
-        expected_image = Image.open(expected)
-        expected_image.load()
+        self.assertTrue(self.image_equal(save, expected), expected_filename + " and " + save_filename + " are not equal")
 
-        assert self.image_equal(output_image, expected_image)
-
-    def image_equal(self, im1, im2):
+    def image_equal(self, im1_name, im2_name):
+        im1 = Image.open(im1_name)
+        im2 = Image.open(im2_name)
         return ImageChops.difference(im1, im2).getbbox() is None
 
     def tearDown(self):
         path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        save_filename = "test/output.png"
+        save_filename = "test/temp/output.png"
         save = os.path.join(path, save_filename)
 
         os.remove(save)

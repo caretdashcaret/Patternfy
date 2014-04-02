@@ -3,13 +3,15 @@ from src import ObjectLoader
 from src import TextureLoader
 from src import SeamEquilizer
 from src import ImageTransformer
+from src import MatrixComputer
+from PIL import ImageChops
+from PIL import Image
 import random
 import os
 
 class ImageTransformerTest(unittest.TestCase):
 
     def setUp(self):
-
         path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         texture_filename = "objects/original_texture.png"
         texture = os.path.join(path, texture_filename)
@@ -97,3 +99,57 @@ class ImageTransformerTest(unittest.TestCase):
 
         assert originial == expected_original
         assert modified == expected_modified
+
+    def test_apply_transformation_to_image(self):
+
+        counter = 0
+        self.image_transformer.modified_image = self.image_transformer.create_new_image()
+
+        for original_face_idx, original_face in self.image_transformer.original_face_to_vts.items():
+            original_image_points, modified_image_points = self.image_transformer.get_all_image_points(original_face_idx)
+            matrix_computer = MatrixComputer(original_image_points, modified_image_points)
+            sections = matrix_computer.get_transforming_triangles()
+            matrices = matrix_computer.get_transformations(sections)
+
+            for triangles, matrix in zip(sections, matrices):
+                source_triangle, destination_triangle = triangles
+                self.image_transformer.apply_transformation_to_image(source_triangle, destination_triangle, matrix)
+                filename = self.get_image_transformation_filename(counter)
+                self.image_transformer.modified_image.save(filename)
+                counter += 1
+
+        transformations = range(0, 12)
+
+        for step_number in transformations:
+            expected = self.get_expected_transformation_filename(step_number)
+            actual = self.get_image_transformation_filename(step_number)
+            self.assertTrue(self.image_equal(expected, actual), "transformation_" + str(step_number) + ".pngs are not equal ")
+
+        self.teardown_apply_transformation_to_image()
+
+    def get_image_transformation_filename(self, step_num):
+        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        transf_filename = "test/temp/transformation_" + str(step_num) + ".png"
+        transf_file = os.path.join(path, transf_filename)
+        return transf_file
+
+    def get_expected_transformation_filename(self, step_num):
+        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        transf_filename = "objects/transformations/transformation_" + str(step_num) + ".png"
+        transf_file = os.path.join(path, transf_filename)
+        return transf_file
+
+    def image_equal(self, im1_name, im2_name):
+        im1 = Image.open(im1_name)
+        im2 = Image.open(im2_name)
+        return ImageChops.difference(im1, im2).getbbox() is None
+
+    def teardown_apply_transformation_to_image(self):
+        transformations = range(0, 12)
+
+        for transf in transformations:
+            filename = self.get_image_transformation_filename(transf)
+            try: #need a better way to check for if file exists
+                os.remove(filename)
+            except:
+                pass
