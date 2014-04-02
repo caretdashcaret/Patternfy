@@ -17,7 +17,7 @@ class SeamEquilizer():
             max_edge_length = max(variants_to_lengths.values())
 
             #scale by that length
-            self.scale_variant_edge(edge_variants, max_edge_length, variants_to_lengths)
+            self.scale_variant_edge(edge_variants, max_edge_length)
 
 
     def find_lengths_of_edge_variants(self, edge_variants):
@@ -28,13 +28,11 @@ class SeamEquilizer():
 
         return variants_to_lengths
 
-    def scale_variant_edge(self, edge_variants, scale_factor, variants_lengths):
+    def scale_variant_edge(self, edge_variants, scale_factor):
         for variant in edge_variants:
-            hashable_key = str(variant)
-            if variants_lengths[hashable_key] != scale_factor:
-                pt0, pt1 = self.get_vts_values(variant)
-                newpt0, newpt1 = self.scale(pt0, pt1, scale_factor, variants_lengths[hashable_key])
-                self.set_new_vts_values(newpt0, newpt1, variant)
+            pt0, pt1 = self.get_vts_values(variant)
+            newpt0, newpt1 = self.scale(pt0, pt1, scale_factor)
+            self.set_new_vts_values(newpt0, newpt1, variant)
 
     def set_new_vts_values(self, value_0, value_1, edge_variant):
         idx_0, idx_1 = self.get_vts_index_for_edge(edge_variant)
@@ -54,8 +52,9 @@ class SeamEquilizer():
         length = self.euclidean_dist(pt0,pt1)
         return length
 
-    def scale(self, pt0, pt1, factor, currentlen):
-
+    def scale(self, pt0, pt1, factor):
+        #scale from the midpoint of the two points
+        currentlen = self.euclidean_dist(pt0, pt1)
         midpt = self.midpoint(pt0, pt1)
 
         newpt_x = pt0[0] + (pt1[0]-pt0[0]) / currentlen * factor
