@@ -1,0 +1,1 @@
+This directory contains files (PNGs) that will be created and deleted during by the tests.
