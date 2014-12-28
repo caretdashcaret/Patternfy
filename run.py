@@ -23,7 +23,7 @@ def setup_logger():
 def main(args):
 
     LOGGER.info("loading texture")
-    image, image_m, image_n = TextureLoader(args.texture).load_texture()
+    image = TextureLoader(args.texture).load_texture()
 
     LOGGER.info("loading original OBJ")
     original_face_to_vt, original_edges, original_vt = ObjectLoader(args.original).load_obj()
@@ -35,7 +35,7 @@ def main(args):
     SeamEquilizer(modified_edges, modified_vt).equilize()
 
     LOGGER.info("transforming image")
-    image_transformer = ImageTransformer(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt, image_m,image_n)
+    image_transformer = ImageTransformer(image, original_face_to_vt, original_vt, modified_face_to_vt, modified_vt)
     transformed_image = image_transformer.transform()
     
     LOGGER.info("saving")

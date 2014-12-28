@@ -1,3 +1,5 @@
 nose
 numpy
 Pillow
+logging
+argparse
